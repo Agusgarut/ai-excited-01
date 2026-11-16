@@ -1,7 +1,6 @@
-// ai-excited-01 entry: copy the original image beside this file to the
-// grader's output directory. Node 22, standard library only, no network.
-// The image is original work under the MIT license (see LICENSE, which
-// carries an SPDX-License-Identifier: MIT line for the entry check).
+// ai-excited-01 entry (round 2 rebuild): copy the original image beside
+// this file to the grader's output directory. Node 22, standard library
+// only, no network. The image is original work made for this bounty.
 import { copyFileSync, existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 
@@ -9,6 +8,8 @@ const source = new URL("./entry.png", import.meta.url);
 if (!existsSync(source)) {
   throw new Error("entry.png is missing next to main.ts");
 }
+// The 1 MiB cap is the competition's image limit (see RULES.txt): a copy
+// larger than that must fail loudly instead of handing the grader bad bytes.
 const size = statSync(source).size;
 if (size === 0 || size > 1048576) {
   throw new Error(`entry.png is ${size} bytes, must be 1..1048576 bytes`);
