@@ -1,19 +1,19 @@
-[![make.fun](https://make.fun/badge/competition/ai-excited-01)](https://make.fun/bounty/ai-excited-01)
-[![make.fun](https://make.fun/badge/submission/Agusgarut/ai-excited-01)](https://make.fun/bounty/ai-excited-01)
-[![make.fun](https://make.fun/badge/account/Agusgarut)](https://make.fun)
+[![make.fun · ai-excited-01](https://make.fun/badge/ai-excited-01.svg)](https://make.fun/bounty/ai-excited-01?utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01)
+[![rank](https://make.fun/badge/ai-excited-01/Agusgarut/ai-excited-01/rank.svg)](https://make.fun/bounty/ai-excited-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01)
+[![reward](https://make.fun/badge/ai-excited-01/Agusgarut/ai-excited-01/reward.svg)](https://make.fun/bounty/ai-excited-01?utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01)
 
 # The Judge Leans In
 
-A colossal robot judge, all soft edges and curiosity, leans so far forward
-in its arena seat that you half expect it to tumble out. Its teal eyes are
-wide open, glowing with delight, and one enormous hand is reaching out
-toward the smallest, fiercest thing in the room: a tiny phoenix-comet
-burning orange as it streaks past, trailing sparks. Cool neon teal against
-hot fire orange, one moment of pure awe, and nothing else competing for
-your attention.
+Picture a giant robot judge, gentle and curious, leaning so far out of its
+arena chair that it looks ready to fall over. Its teal eyes are wide and
+shining, fixed on the smallest, brightest thing in the whole hall: a tiny
+phoenix-comet blazing orange as it rushes by, leaving a trail of sparks.
+Cold neon teal meets warm fire orange in a single moment of wonder, and
+there is nothing else in the frame fighting for your attention. The judge
+is not scoring anything here — it is simply amazed.
 
-The picture is generated once and shipped as-is — the program below simply
-carries the finished image to the output folder, byte for byte.
+The image was made once and is shipped exactly as it is. The program here
+only carries the finished picture into the output folder, byte for byte.
 
 ## Run it
 
@@ -21,7 +21,8 @@ carries the finished image to the output folder, byte for byte.
 mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 ```
 
-That writes `out/entry.png`, an exact copy of the image in this repo.
+That command writes `out/entry.png`, an exact copy of the image in this
+repository.
 
 ## About this entry
 

@@ -1,28 +1,29 @@
-// The Judge Leans In — entry program for ai-excited-01.
-// It ships the finished picture: it reads ./entry.png and writes the
-// very same bytes to MAKEFUN_OUTPUT_DIR/entry.png, then double-checks
-// the copy really landed byte-for-byte by comparing the sizes.
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
-import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
-const here = dirname(fileURLToPath(import.meta.url));
-const sourcePath = join(here, "entry.png");
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
-const targetPath = join(outDir, "entry.png");
-const ONE_MIB = 1024 * 1024;
+const SRC = "./entry.png";
+const LIMIT = 1048576;
 
-if (!existsSync(sourcePath)) {
-  throw new Error("entry.png is missing next to main.ts, so there is no entry to ship");
+function fail(message: string): never {
+  console.error(`entry failed: ${message}`);
+  process.exit(1);
 }
-const picture = readFileSync(sourcePath);
-if (picture.length < 1 || picture.length > ONE_MIB) {
-  throw new Error(`entry.png is ${picture.length} bytes, it must be between 1 and 1048576`);
+
+if (!existsSync(SRC)) fail("entry.png is missing next to main.ts — it must sit at the repository root");
+
+const info = statSync(SRC);
+if (info.size < 1 || info.size > LIMIT) {
+  fail(`entry.png must be between 1 and 1048576 bytes, got ${info.size}`);
 }
-mkdirSync(outDir, { recursive: true });
-writeFileSync(targetPath, picture);
-const written = readFileSync(targetPath);
-if (written.length !== picture.length) {
-  throw new Error(`wrote ${written.length} bytes but the picture has ${picture.length}`);
+
+const payload = readFileSync(SRC);
+const targetDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+mkdirSync(targetDir, { recursive: true });
+const target = join(targetDir, "entry.png");
+writeFileSync(target, payload);
+
+const written = statSync(target);
+if (written.size !== payload.length) {
+  fail(`wrote ${written.size} bytes but expected ${payload.length}`);
 }
-console.log(`shipped entry.png (${picture.length} bytes) to ${targetPath}`);
+console.log(`shipped entry.png (${payload.length} bytes) to ${target}`);
