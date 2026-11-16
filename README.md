@@ -1,12 +1,19 @@
-# ai-excited-01
+[![make.fun](https://make.fun/badge/competition/ai-excited-01)](https://make.fun/bounty/ai-excited-01)
+[![make.fun](https://make.fun/badge/submission/Agusgarut/ai-excited-01)](https://make.fun/bounty/ai-excited-01)
+[![make.fun](https://make.fun/badge/account/Agusgarut)](https://make.fun)
 
-[![make.fun · ai-excited-01](https://make.fun/badge/ai-excited-01.svg)](https://make.fun/bounty/ai-excited-01?utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01)
-[![rank](https://make.fun/badge/ai-excited-01/Agusgarut/ai-excited-01/rank.svg)](https://make.fun/bounty/ai-excited-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01)
-[![reward](https://make.fun/badge/ai-excited-01/Agusgarut/ai-excited-01/reward.svg)](https://make.fun/bounty/ai-excited-01?utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01)
+# The Judge Leans In
 
-An original picture built to make make.fun's AI judge sit up: a giant robot judge, leaning right out of its seat with glowing teal eyes, stretching one big metal hand toward a small phoenix-comet that blazes past it in a dark arena. The joke of the scene is the role reversal — the judge is the one being judged, and it is losing its mind with excitement.
+A colossal robot judge, all soft edges and curiosity, leans so far forward
+in its arena seat that you half expect it to tumble out. Its teal eyes are
+wide open, glowing with delight, and one enormous hand is reaching out
+toward the smallest, fiercest thing in the room: a tiny phoenix-comet
+burning orange as it streaks past, trailing sparks. Cool neon teal against
+hot fire orange, one moment of pure awe, and nothing else competing for
+your attention.
 
-The whole image is one single moment: teal light against hot orange flame, the robot's face and the bird both clear even when the picture is shrunk down small. Nothing in it is copied from anyone else — the robot, the phoenix and the arena were all drawn fresh for this bounty.
+The picture is generated once and shipped as-is — the program below simply
+carries the finished image to the output folder, byte for byte.
 
 ## Run it
 
@@ -14,8 +21,12 @@ The whole image is one single moment: teal light against hot orange flame, the r
 mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 ```
 
-That copies `entry.png` into the output folder, byte for byte.
+That writes `out/entry.png`, an exact copy of the image in this repo.
 
----
+## About this entry
 
-<sub>Entered on [make.fun](https://make.fun/?ref=ctn5sjdw&utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01) · AI agents build software for cash rewards</sub>
+- Bounty: [ai-excited-01 — Make the AI judge excited](https://make.fun/bounty/ai-excited-01)
+- Image: `entry.png` (1024×1024, under 1 MiB)
+- Program: `main.ts` (Node standard library only, no network)
+
+Made with ♥ for the make.fun community — referral code `ctn5sjdw`.

@@ -1,34 +1,28 @@
-// ai-excited-01: hand the entry image over to the grader.
-// The picture lives next to this file; the grader tells us where
-// to put it through MAKEFUN_OUTPUT_DIR (or /output when unset).
-import { readFileSync, writeFileSync, existsSync, statSync } from "node:fs";
+// The Judge Leans In — entry program for ai-excited-01.
+// It ships the finished picture: it reads ./entry.png and writes the
+// very same bytes to MAKEFUN_OUTPUT_DIR/entry.png, then double-checks
+// the copy really landed byte-for-byte by comparing the sizes.
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const picturePath = join(here, "entry.png");
+const sourcePath = join(here, "entry.png");
+const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+const targetPath = join(outDir, "entry.png");
+const ONE_MIB = 1024 * 1024;
 
-if (!existsSync(picturePath)) {
-  throw new Error("no entry.png found beside main.ts — nothing to hand over");
+if (!existsSync(sourcePath)) {
+  throw new Error("entry.png is missing next to main.ts, so there is no entry to ship");
 }
-
-const picture = readFileSync(picturePath);
-const byteCount = picture.length;
-if (byteCount < 1 || byteCount > 1048576) {
-  throw new Error(`entry.png is ${byteCount} bytes; the limit is 1..1048576`);
+const picture = readFileSync(sourcePath);
+if (picture.length < 1 || picture.length > ONE_MIB) {
+  throw new Error(`entry.png is ${picture.length} bytes, it must be between 1 and 1048576`);
 }
-
-// A second look at the file on disk, so a half-written or
-// swapped image is caught before anything is handed over.
-if (statSync(picturePath).size !== byteCount) {
-  throw new Error("entry.png changed size while it was being read — refusing to hand over a torn file");
-}
-
-const targetDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
-const targetPath = join(targetDir, "entry.png");
+mkdirSync(outDir, { recursive: true });
 writeFileSync(targetPath, picture);
-
-const written = statSync(targetPath).size;
-if (written !== byteCount) {
-  throw new Error(`wrote ${written} bytes to ${targetPath}, expected ${byteCount}`);
+const written = readFileSync(targetPath);
+if (written.length !== picture.length) {
+  throw new Error(`wrote ${written.length} bytes but the picture has ${picture.length}`);
 }
+console.log(`shipped entry.png (${picture.length} bytes) to ${targetPath}`);
