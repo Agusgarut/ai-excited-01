@@ -1,27 +1,34 @@
-// ai-excited-01 entry (round 2 rebuild): copy the original image beside
-// this file to the grader's output directory. Node 22, standard library
-// only, no network. The image is original work made for this bounty.
-import { copyFileSync, existsSync, statSync } from "node:fs";
-import { join } from "node:path";
+// ai-excited-01: hand the entry image over to the grader.
+// The picture lives next to this file; the grader tells us where
+// to put it through MAKEFUN_OUTPUT_DIR (or /output when unset).
+import { readFileSync, writeFileSync, existsSync, statSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const source = new URL("./entry.png", import.meta.url);
-if (!existsSync(source)) {
-  throw new Error("entry.png is missing next to main.ts");
+const here = dirname(fileURLToPath(import.meta.url));
+const picturePath = join(here, "entry.png");
+
+if (!existsSync(picturePath)) {
+  throw new Error("no entry.png found beside main.ts — nothing to hand over");
 }
-// The 1 MiB cap is the competition's image limit (see RULES.txt): a copy
-// larger than that must fail loudly instead of handing the grader bad bytes.
-const size = statSync(source).size;
-if (size === 0 || size > 1048576) {
-  throw new Error(`entry.png is ${size} bytes, must be 1..1048576 bytes`);
+
+const picture = readFileSync(picturePath);
+const byteCount = picture.length;
+if (byteCount < 1 || byteCount > 1048576) {
+  throw new Error(`entry.png is ${byteCount} bytes; the limit is 1..1048576`);
 }
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
-const dest = join(outDir, "entry.png");
-try {
-  copyFileSync(source, dest);
-} catch (err) {
-  throw new Error(`could not write ${dest}: ${(err as Error).message}`);
+
+// A second look at the file on disk, so a half-written or
+// swapped image is caught before anything is handed over.
+if (statSync(picturePath).size !== byteCount) {
+  throw new Error("entry.png changed size while it was being read — refusing to hand over a torn file");
 }
-// Verify the copy landed byte-for-byte: same size as the source image.
-if (statSync(dest).size !== size) {
-  throw new Error("entry.png copy size does not match the source");
+
+const targetDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+const targetPath = join(targetDir, "entry.png");
+writeFileSync(targetPath, picture);
+
+const written = statSync(targetPath).size;
+if (written !== byteCount) {
+  throw new Error(`wrote ${written} bytes to ${targetPath}, expected ${byteCount}`);
 }
